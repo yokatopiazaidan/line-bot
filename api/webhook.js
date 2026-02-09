@@ -1,17 +1,12 @@
-const express = require("express");
-const serverless = require("serverless-http");
+export default function handler(req, res) {
+  if (req.method === "GET") {
+    return res.status(200).send("OK");
+  }
 
-const app = express();
-app.use(express.json());
+  if (req.method === "POST") {
+    console.log("LINEから通知:", req.body);
+    return res.status(200).send("OK");
+  }
 
-app.get("/webhook", (req, res) => {
-  res.status(200).send("OK");
-});
-
-app.post("/webhook", (req, res) => {
-  console.log("LINEから通知:", req.body);
-  res.status(200).send("OK");
-});
-
-module.exports = app;
-module.exports.handler = serverless(app);
+  return res.status(405).send("Method Not Allowed");
+}
